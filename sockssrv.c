@@ -472,6 +472,11 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 	signal(SIGPIPE, SIG_IGN);
+	if (getpid() == 1) {
+		signal(SIGINT, exit);
+		signal(SIGTERM, exit);
+	}
+
 	struct server s;
 	sblist *threads = sblist_new(sizeof (struct thread*), 8);
 	if(server_setup(&s, listenip, port)) {
